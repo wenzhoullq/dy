@@ -1,8 +1,7 @@
 package controller
 
 import (
-	"errors"
-	message "github.com/RaymondCode/simple-demo/proto/pkg"
+	"github.com/RaymondCode/simple-demo/response"
 	"github.com/RaymondCode/simple-demo/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -34,19 +33,19 @@ type UserResponse struct {
 	User User `json:"user"`
 }
 
-func Register(c *gin.Context) (*message.DouyinUserRegisterRes, error) {
+func Register(c *gin.Context) {
 	username := c.Query("username")
 	password := c.Query("password")
 	ok := check_AccountParam(username, password)
 	if !ok {
-		mes := &message.DouyinUserRegisterRes{
-			StatusCode: -1,
-			StatusMsg:  "failed",
-		}
-		return mes, errors.New("账号密码格式错误")
+		response.Fail(c, "账号密码格式错误", nil)
 	}
 	mes, err := service.Register(username, password)
-	return mes, err
+	if err != nil {
+		response.Fail(c, mes.StatusMsg, mes)
+		return
+	}
+	response.Success(c, "success", mes)
 }
 
 func Login(c *gin.Context) {
