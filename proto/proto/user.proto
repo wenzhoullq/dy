@@ -1,0 +1,19 @@
+syntax = "proto3";
+package douyin.core;
+option go_package = "../pkg;message";
+message user_request {
+  string username = 1;
+  string token = 2;
+}
+message user_response {
+  int64 status_code = 1;
+  string status_msg = 2;
+  user user = 3;
+}
+message user {
+    int64 id = 1;
+    string name = 2;
+    int64  follow_count = 3;
+    int64  follower_count =4;
+    bool is_follow = 5;
+}

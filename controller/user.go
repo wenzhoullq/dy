@@ -1,9 +1,11 @@
 package controller
 
 import (
+	"errors"
+	message "github.com/RaymondCode/simple-demo/proto/pkg"
+	"github.com/RaymondCode/simple-demo/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"sync/atomic"
 )
 
 // usersLoginInfo use map to store user info, and key is username+password for demo
@@ -32,29 +34,19 @@ type UserResponse struct {
 	User User `json:"user"`
 }
 
-func Register(c *gin.Context) {
+func Register(c *gin.Context) (*message.DouyinUserRegisterRes, error) {
 	username := c.Query("username")
 	password := c.Query("password")
-
-	token := username + password
-
-	if _, exist := usersLoginInfo[token]; exist {
-		c.JSON(http.StatusOK, UserLoginResponse{
-			Response: Response{StatusCode: 1, StatusMsg: "User already exist"},
-		})
-	} else {
-		atomic.AddInt64(&userIdSequence, 1)
-		newUser := User{
-			Id:   userIdSequence,
-			Name: username,
+	ok := check_AccountParam(username, password)
+	if !ok {
+		mes := &message.DouyinUserRegisterRes{
+			StatusCode: -1,
+			StatusMsg:  "failed",
 		}
-		usersLoginInfo[token] = newUser
-		c.JSON(http.StatusOK, UserLoginResponse{
-			Response: Response{StatusCode: 0},
-			UserId:   userIdSequence,
-			Token:    username + password,
-		})
+		return mes, errors.New("账号密码格式错误")
 	}
+	mes, err := service.Register(username, password)
+	return mes, err
 }
 
 func Login(c *gin.Context) {
@@ -89,4 +81,12 @@ func UserInfo(c *gin.Context) {
 			Response: Response{StatusCode: 1, StatusMsg: "User doesn't exist"},
 		})
 	}
+}
+func check_AccountParam(username string, password string) bool {
+	//防sql注入
+	//账户长度不得大于32位,密码长度不得大于32位
+	if len(username) > 32 || len(password) > 32 {
+		return false
+	}
+	return true
 }
