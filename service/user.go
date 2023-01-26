@@ -2,9 +2,9 @@ package service
 
 import (
 	"fmt"
-	"github.com/RaymondCode/simple-demo/common"
-	message "github.com/RaymondCode/simple-demo/proto/pkg"
-	"github.com/RaymondCode/simple-demo/repository"
+	//"simple-demo/common"
+	message "simple-demo/proto/pkg"
+	"simple-demo/repository"
 )
 
 func Register(username string, password string) (*message.DouyinUserRegisterRes, error) {
@@ -16,7 +16,8 @@ func Register(username string, password string) (*message.DouyinUserRegisterRes,
 		}
 		return mes, fmt.Errorf("register is failed:%v", err)
 	}
-	token, err := common.GenToken(username, password)
+	token := ""
+	//token, err := common.GenToken(username, password)
 	if err != nil {
 		mes := &message.DouyinUserRegisterRes{
 			StatusCode: -1,

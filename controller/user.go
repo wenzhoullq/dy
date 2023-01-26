@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"github.com/RaymondCode/simple-demo/response"
-	"github.com/RaymondCode/simple-demo/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"simple-demo/response"
+	"simple-demo/service"
 )
 
 // usersLoginInfo use map to store user info, and key is username+password for demo
@@ -42,7 +42,7 @@ func Register(c *gin.Context) {
 	}
 	mes, err := service.Register(username, password)
 	if err != nil {
-		response.Fail(c, mes.StatusMsg, mes)
+		response.Fail(c, "fail", mes)
 		return
 	}
 	response.Success(c, "success", mes)
