@@ -3,14 +3,14 @@ package service
 import (
 	"fmt"
 	//"simple-demo/common"
-	message "simple-demo/proto/pkg"
+	mes "simple-demo/proto/pkg"
 	"simple-demo/repository"
 )
 
-func Register(username string, password string) (*message.DouyinUserRegisterRes, error) {
+func Register(username string, password string) (*mes.DouyinUserRegisterRes, error) {
 	err := repository.UsernameEixt(username)
 	if err != nil {
-		mes := &message.DouyinUserRegisterRes{
+		mes := &mes.DouyinUserRegisterRes{
 			StatusCode: -1,
 			StatusMsg:  "failed",
 		}
@@ -19,7 +19,7 @@ func Register(username string, password string) (*message.DouyinUserRegisterRes,
 	token := ""
 	//token, err := common.GenToken(username, password)
 	if err != nil {
-		mes := &message.DouyinUserRegisterRes{
+		mes := &mes.DouyinUserRegisterRes{
 			StatusCode: -1,
 			StatusMsg:  "failed",
 		}
@@ -27,13 +27,13 @@ func Register(username string, password string) (*message.DouyinUserRegisterRes,
 	}
 	userId, err := repository.InsertAccount(username, password)
 	if err != nil {
-		mes := &message.DouyinUserRegisterRes{
+		mes := &mes.DouyinUserRegisterRes{
 			StatusCode: -1,
 			StatusMsg:  "failed",
 		}
 		return mes, fmt.Errorf("register is failed:%v", err)
 	}
-	mes := &message.DouyinUserRegisterRes{
+	mes := &mes.DouyinUserRegisterRes{
 		StatusCode: 0,
 		StatusMsg:  "success",
 		UserId:     userId,
