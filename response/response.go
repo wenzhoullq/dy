@@ -2,6 +2,8 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
+	"log"
+	"reflect"
 )
 
 const (
@@ -9,25 +11,40 @@ const (
 	errorCode   = 1
 )
 
-type response struct {
-	status_code int
-	status_msg  string
+type Resp struct {
+	Statuscode int    `json:"code"`
+	Statusmsg  string `json:"msg"`
 }
 
-func Response(ctx *gin.Context, httpStatus int, v interface{}) {
+func checkResponese(v interface{}) {
+	getValue := reflect.ValueOf(v)
+	Msg := getValue.Elem().FieldByName("StatusMsg")
+	if !Msg.CanSet() {
+		log.Println("cant set msg")
+	}
+	Code := getValue.Elem().FieldByName("StatusCode")
+	if !Code.CanSet() {
+		log.Println("cant set StatusCode")
+	}
+}
+
+func response(ctx *gin.Context, httpStatus int, v interface{}) {
 	ctx.JSON(httpStatus, v)
 }
 
 func Success(ctx *gin.Context, msg string, v interface{}) {
 	if v == nil {
-		Response(ctx, 200, response{successCode, msg})
+		response(ctx, 200, Resp{successCode, msg})
 		return
 	}
+	checkResponese(v)
+	response(ctx, 200, v)
 }
 func Fail(ctx *gin.Context, msg string, v interface{}) {
 	if v == nil {
-		Response(ctx, 400, response{errorCode, msg})
+		response(ctx, 200, Resp{errorCode, msg})
 		return
 	}
-	//
+	checkResponese(v)
+	response(ctx, 200, v)
 }
