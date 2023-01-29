@@ -11,12 +11,29 @@ type MysqlConfig struct {
 	Username string
 	PassWord string
 }
+type RedisConfig struct {
+	Address string
+	Network string
+	Port    string
+	Auth    string
+}
+type PathConfig struct {
+	Videofile string
+	Logfile   string
+	Picfile   string
+}
 type Configs struct {
 	MysqlConfig MysqlConfig
+	RedisConfig RedisConfig
+	Path        PathConfig
+	Level       string
 }
 
 var Config Configs
 
+func GetConfig() Configs {
+	return Config
+}
 func LoadConfig() {
 	viper.SetConfigFile("./config.yaml")
 	err := viper.ReadInConfig()
@@ -30,7 +47,14 @@ func LoadConfig() {
 		Username: viper.GetString("mysql.username"),
 		PassWord: viper.GetString("mysql.password"),
 	}
+	redis := RedisConfig{
+		Address: viper.GetString("redis.address"),
+		Network: viper.GetString("redis.network"),
+		Port:    viper.GetString("redis.port"),
+		Auth:    viper.GetString("redis.auth"),
+	}
 	Config = Configs{
 		MysqlConfig: mysql,
+		RedisConfig: redis,
 	}
 }

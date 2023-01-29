@@ -1,8 +1,14 @@
 package Init
 
-import "simple-demo/config"
+import (
+	"simple-demo/common"
+	"simple-demo/config"
+	"simple-demo/log"
+)
 
-func init() {
+func Init() {
 	config.LoadConfig()
-	dbInit.InitMysqlDB()
+	common.InitMysqlDB()
+	common.RedisInit()
+	log.InitLog()
 }

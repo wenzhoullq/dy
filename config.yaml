@@ -1,0 +1,15 @@
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  database: douyin
+  username: root
+  password: admin123
+redis:
+  address: 127.0.0.1
+  network: tcp
+  port: 6379
+  auth:
+videofile: /tmp/file/video/
+logfile: /tmp/file/log/
+picfile: /tmp/file/picture/
+level: info
