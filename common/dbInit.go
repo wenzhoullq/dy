@@ -29,7 +29,6 @@ func InitMysqlDB() {
 	if err != nil {
 		panic("failed to connect database ,err:" + err.Error())
 	}
-	//log.Infof("connect database success,user:%s,database:%s", username, database)
 }
 func GetDB() *gorm.DB {
 	return DataBase

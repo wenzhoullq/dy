@@ -1,19 +1,20 @@
-syntax = "proto2";
-package douyin.core;
+syntax = "proto3";
+package proto;
 option go_package = "../pkg;message";
+
 message douyin_user_request {
-  required int64 user_id = 1;
-  required string token = 2;
+   int64 user_id = 1;
+   string token = 2;
 }
 message douyin_user_response {
-  required int32 status_code = 1;
-  optional string status_msg = 2;
-  required User user = 3;
+   int32 status_code = 1;
+   string status_msg = 2;
+   User user = 3;
 }
 message User {
-    required int64 id = 1;
-    required string name = 2;
-    optional int64  follow_count = 3;
-    optional int64  follower_count =4;
-    required bool is_follow = 5;
+     int64 id = 1;
+     string name = 2;
+     int64  follow_count = 3;
+     int64  follower_count =4;
+     bool is_follow = 5;
 }

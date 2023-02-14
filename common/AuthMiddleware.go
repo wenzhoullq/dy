@@ -7,6 +7,10 @@ import (
 	"strconv"
 )
 
+var (
+	Key_UserInfo string = "userInfo_uid_"
+)
+
 type JWTClaims struct {
 	UserId   int64  `json:"userid"`
 	Username string `json:"username"`
@@ -51,15 +55,26 @@ func ParsenToken(tokenString string) (*JWTClaims, error) {
 }
 
 // 检查token
-func CheckToken(uid string, token string) error {
+func CheckToken(token string) error {
 	Claims, err := ParsenToken(token)
 	if err != nil {
 		return err
 	}
-	if strconv.Itoa(int(Claims.UserId)) != uid {
+	processUidKey := ProcessUid(Key_UserInfo, strconv.Itoa(int(Claims.UserId)))
+	_, err = GetStringCache(processUidKey)
+	if err != nil {
 		return err
 	}
 	return nil
+}
+
+// 获得token中的uid
+func GetTokenUid(token string) (string, error) {
+	Claims, err := ParsenToken(token)
+	if err != nil {
+		return "", err
+	}
+	return strconv.Itoa(int(Claims.UserId)), nil
 }
 
 // 账号密码参数检验

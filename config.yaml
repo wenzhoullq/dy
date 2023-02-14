@@ -9,7 +9,15 @@ redis:
   network: tcp
   port: 6379
   auth:
-videofile: /tmp/file/video/
-logfile: /tmp/file/log/
-picfile: /tmp/file/picture/
+minio:
+  host: 172.20.10.8
+  port: 9001
+  accessKeyID: admin123
+  secretAccessKey: admin123
+  videobuckets: video
+  picbuckets: pic
+
+videofile: /Users/didi/simple-demo/file/video/
+logfile: /Users/didi/simple-demo/file/log/
+picfile: /Users/didi/simple-demo/file/pic/
 level: info

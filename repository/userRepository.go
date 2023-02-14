@@ -35,27 +35,20 @@ func InsertUser(username string, password string) error {
 		0,
 		false,
 	}
-	result := db.Create(&user)
+	result := db.Table("users").Create(&user)
 	if result.RowsAffected == 0 {
 		return result.Error
 	}
 	return nil
 }
-func GetUser(userId int64) (*message.User, error) {
+func GetUser(userId int64) (User, error) {
 	db := common.GetDB()
 	user := User{}
 	result := db.Table("users").Where("userid = ?", userId).Find(&user)
 	if result.Error != nil {
-		return nil, result.Error
+		return user, result.Error
 	}
-	messUser := &message.User{
-		Id:            &user.Id,
-		Name:          &user.Name,
-		FollowCount:   &user.Follow_count,
-		FollowerCount: &user.Follower_count,
-		IsFollow:      &user.Is_follow,
-	}
-	return messUser, nil
+	return user, nil
 }
 func GetUserId(username string) (int64, error) {
 	db := common.GetDB()

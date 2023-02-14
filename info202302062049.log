@@ -1,0 +1,2 @@
+2023-02-06T20:49:08.764+0800	[34mINFO[0m	common/minIoInit.go:69	upload file 142271byte success,fileName:{%!s(*strings.Builder=&{0xc0005e7170 [52 56 95 49 54 55 53 54 56 55 55 52 56 55 50 54 46 106 112 103]}) 48_1675687748726.jpg}
+2023-02-06T20:49:08.837+0800	[34mINFO[0m	common/minIoInit.go:69	upload file 318465byte success,fileName:{%!s(*strings.Builder=&{0xc0005e71b8 [52 56 95 49 54 55 53 54 56 55 55 52 56 55 54 52 46 109 112 52]}) 48_1675687748764.mp4}

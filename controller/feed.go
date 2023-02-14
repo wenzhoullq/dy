@@ -2,21 +2,37 @@ package controller
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"time"
+	"simple-demo/common"
+	"simple-demo/log"
+	"simple-demo/response"
+	"simple-demo/service"
 )
-
-type FeedResponse struct {
-	Response
-	VideoList []Video `json:"video_list,omitempty"`
-	NextTime  int64   `json:"next_time,omitempty"`
-}
 
 // Feed same demo video list for every request
 func Feed(c *gin.Context) {
-	c.JSON(http.StatusOK, FeedResponse{
-		Response:  Response{StatusCode: 0},
-		VideoList: DemoVideos,
-		NextTime:  time.Now().Unix(),
-	})
+	token := c.Query("token")
+	latest_time := c.Query("latest_time")
+	uid := ""
+	//如果token不为空的话,进行解析;
+	if token != "" {
+		err := common.CheckToken(token)
+		if err != nil {
+			response.Fail(c, CheckToken_Fail, nil)
+			log.Error(err)
+			return
+		}
+		uid, err = common.GetTokenUid(token)
+		if err != nil {
+			response.Fail(c, GetUid_Fail, nil)
+			log.Error(err)
+			return
+		}
+	}
+	mess, err := service.GetFeedList(uid, latest_time)
+	if err != nil {
+		response.Fail(c, GetFeedList_Failed, err)
+		log.Error(err)
+		return
+	}
+	response.Success(c, GetFeedList_Success, mess)
 }

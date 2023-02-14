@@ -1,29 +1,28 @@
-syntax = "proto2";
-package douyin.core;
+syntax = "proto3";
+package proto;
 option go_package = "../pkg;message";
+
+import  "user.proto";
+
+
+message Video{
+  int64 id = 1;
+  User author = 2;
+  string play_url = 3;
+  string cover_url = 4;
+  int64  favorite_count = 5;
+  int64  comment_count = 6;
+  bool   is_favorite = 7;
+  string title = 8;
+}
+
 message douyin_publish_list_request{
-  required string username = 1;//注册用户名，最长32个字符
-  required string password = 2;//密码，最长32个字符
+  string token = 1;
+  string user_id = 2;
 }
 message douyin_publish_list_response {
-  required int32 status_code = 1;
-  optional string status_msg = 2;
-  required Video video_list = 3;
+  int32 status_code = 1;
+  string status_msg = 2;
+  repeated Video video_list = 3;
 }
-message Video{
-  required int64 id = 1;
-  required User author = 2;
-  required string play_url = 3;
-  required string cover_url = 4;
-  required int64  favorite_count = 5;
-  required int64  commment_count = 6;
-  required bool   is_favorite = 7;
-  required string title = 8;
-}
-message User {
-  required int64 id = 1;
-  required string name = 2;
-  optional int64  follow_count = 3;
-  optional int64  follower_count =4;
-  required bool is_follow = 5;
-}
+

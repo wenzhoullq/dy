@@ -10,5 +10,6 @@ func Init() {
 	config.LoadConfig()
 	common.InitMysqlDB()
 	common.RedisInit()
+	common.InitMinio()
 	log.InitLog()
 }

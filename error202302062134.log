@@ -1,0 +1,2 @@
+2023-02-06T21:57:46.986+0800	[31mERROR[0m	service/videoService.go:79	insert video fail Error 1366: Incorrect string value: '\xE9\x98\xBF\xE6\x96\xAF...' for column 'title' at row 1
+2023-02-06T21:57:46.987+0800	[31mERROR[0m	controller/publish.go:62	Error 1366: Incorrect string value: '\xE9\x98\xBF\xE6\x96\xAF...' for column 'title' at row 1

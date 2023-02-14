@@ -37,7 +37,6 @@ func Success(ctx *gin.Context, msg string, v interface{}) {
 		response(ctx, 200, Resp{successCode, msg})
 		return
 	}
-	//checkResponese(v)
 	response(ctx, 200, v)
 }
 func Fail(ctx *gin.Context, msg string, v interface{}) {
